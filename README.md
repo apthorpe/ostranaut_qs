@@ -32,7 +32,7 @@ Goddammit.
 
 How the hell is it even Saturday?
 
-Day 3: I've missed two payments already and today has to be the day. Pineda has a contact on OKLG she says can help me unload some of this gear. Problem is, she only told me where to meet - no name, no description. *"Just go to the bar; they'll find you. And be nice."* I've been stationside an hour and I don't see a bar anywhere.
+Day 3: I've missed two payments already and today has to be the day. Pineda has a contact on OKLG she says can help me unload some of this gear. Problem is, she only told me where to meet - no name, no description. *"Just go to the bar; they'll find you. And be nice."* I've been stationside an hour and I don't see a bar anywhere. She knows I've only seen the 'breaker arm. Also, this place is *clean*.
 
 __Where is the bar, Olive?__
 
@@ -75,6 +75,12 @@ The station store bought the spare extinguisher and some loose gear. They even b
 Filed a flight plan with ATC; it puts me in a radar shadow near some outer derelicts. Lt. Smartass shared his wishlist; hope it's still good by the time I get back. Just got taxi clearance; back to work.
 
 Note to self: **LEAVE THE FURNITURE ALONE.**
+
+### `08:42:41`
+
+What brain genius at Polaris decided orbits and planet surfaces should look identical in the VSM? I'm still alive, I have a clean set of coveralls, and most of my remass. That was too damn close.
+
+To Do: Hack the VSM color table in the PSNC. Or read the stupid manual again.
 
 ----
 A set of questions new players may have about Ostranauts, possibly with answers
