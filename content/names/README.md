@@ -45,7 +45,9 @@ $ xxd names_first.json | head -n 6
 00000050: 7346 656d 616c 6522 2c0d 0a20 2020 2020  sFemale",..
 ```
 
-The purpose of the initial `0xEF 0xBB 0xBF` is unknown but it can cause issues when attempting to read the file. In particular, Python's `json` module throws errors unless these characters are removed.
+~~The purpose of the~~ __The initial__ `0xEF 0xBB 0xBF` ~~is unknown but it~~ __is a UTF-8 *Byte Order Mark* (BOM) which__ can cause issues when attempting to read the file. In particular, Python's `json` module throws errors unless these characters are removed __or the file is read with encoding set to `utf-8-sig`__
+
+See the `normalize_name_files.py` for a commented example/proof-of-concept script which reads, alters, and writes JSON name files. This script deduplicates and merges two JSON first name files and writes the results to two new files. It should be (extended/used as the basis for) a utility to convert CSV _name-gender_ data to JSON format.
 
 Otherwise, `names_first.json` has a very straightforward organization that should be reasonably simple to extend.
 
@@ -61,7 +63,7 @@ Nigerian names in particular were selected to be consistent with game lore. The 
 
 ## Editorial Issues
 
-There may be errors in the transcribed data and the gender consolidation fraction of 90% was arbitrarily selected. The data was taken as-is from the original web page and was only filtered for uniqueness against the default `names_first.json`. Some names may be considered problematic in particular cultures. 
+There may be errors in the transcribed data and the gender consolidation fraction of 90% was arbitrarily selected. The data was taken as-is from the original web page and was only filtered for uniqueness against the default `names_first.json`. Some names may be considered problematic in particular cultures.
 
 It is suggested that the original web page, spreadsheet, and JSON files are reviewed before use.
 
