@@ -61,9 +61,22 @@ The complete name list is stored in frequency order in `names_first_nigerian.jso
 
 Nigerian names in particular were selected to be consistent with game lore. The process used to generate these data files should be suitable for adding names from other regions.
 
-## Editorial Issues
+### Editorial Issues
 
 There may be errors in the transcribed data and the gender consolidation fraction of 90% was arbitrarily selected. The data was taken as-is from the original web page and was only filtered for uniqueness against the default `names_first.json`. Some names may be considered problematic in particular cultures.
 
 It is suggested that the original web page, spreadsheet, and JSON files are reviewed before use.
 
+## Example: Kazakh Given Names
+
+Additional character first names were taken from the 1000 most popular first names in Kazakhstan (https://forebears.io/kazakhstan/forenames). Gender association was performed as for Nigerian names.
+
+Raw name data is stored in a LibreOffice spreadsheet (`names_first_kazakh.ods`) and gender was manually copied over from the original web page.
+
+The name/gender pairs were exported as a two column CSV file (`names_first_kazakh.csv`) in frequency order. The CSV data was converted to JSON (saved in `names_first_kazakh.json`) using `normalize_name_files.py`. `names_first_kazakh_R.json` contains only the names which are not already in `C:\Program Files (x86)\Steam\SteamApps\common\Ostranauts\Ostranauts_Data\StreamingAssets\data\names_first.json`. `names_first_kazakh_M.json` combines the reduced name list `names_first_kazakh_R.json` with the default names in `names_first.json`.
+
+### Editorial Issues
+
+There may be errors in the transcribed data and the gender consolidation fraction of 90% was arbitrarily selected. The data was taken as-is from the original web page; names with less than 3 characters were discarded as were those with no gender association (the data seemed suspect) and was filtered for uniqueness against the default `names_first.json`.
+
+Again, it is suggested that the original web page, spreadsheet, and JSON files are reviewed before use.
