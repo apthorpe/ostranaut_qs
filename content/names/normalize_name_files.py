@@ -1,3 +1,4 @@
+import csv
 import json
 from pathlib import Path
 import sys
@@ -20,12 +21,17 @@ def main():
     """Main name file analyzer and deduplicator"""
     usagemsg = \
 """Usage: normalize_name_files.py newnames.json defaultnames.json
-  Deduplicated names are written to newnames_R.json
+      normalize_name_files.py newnames.csv defaultnames.json
+  If new names stored as CSV, names are converted to JSON
+  and written to newnames.json
+  Deduplicated names are written to newnames_R.json (reduced name list)
   Merged names are written to newnames_M.json"""
 
     pretty_indent = 2
     inbound_encoding = "utf-8-sig"
     outbound_encoding = "utf-8"
+    known_genders = ("IsMale", "IsFemale", "IsNB")
+    min_name_length = 3
 
     nargs = len(sys.argv)
 
@@ -67,13 +73,65 @@ def main():
     dnames = hashmotize_raw_names(dnraw)
     print("Default name list (raw) contains {} entries".format(len(dnames)))
 
-    # Load new names from JSON to struct
-    with newfn.open("r", encoding=inbound_encoding) as nfh:
-        nj = json.load(nfh)
+    # Load new names from JSON or CSV to struct
+    nnraw = list()
+    nj = list()
+    nnames = dict()
 
-    nnraw = nj[0]["aValues"]
-    nnames = hashmotize_raw_names(nnraw)
-    print("New name list (raw) contains {} entries".format(len(nnames)))
+    if newfn.suffix == ".json":
+        # Load new names from JSON to struct
+        with newfn.open("r", encoding=inbound_encoding) as nfh:
+            nj = json.load(nfh)
+
+        nnraw = nj[0]["aValues"]
+        nnames = hashmotize_raw_names(nnraw)
+        print("New name list (raw) contains {} entries".format(len(nnames)))
+    elif newfn.suffix == ".csv":
+        # Populate nnraw, nj, and nnames with CSV data; write nj struct as JSON
+        nj.append({
+            "strName": "First Names",
+            "aValues": list()
+        })
+        # Load new names from CSV to struct
+        with newfn.open("r") as nfh:
+            namereader = csv.reader(nfh)
+            for row in namereader:
+                if row[0].startswith("#"):
+                    print("INFO: Skipping commented row starting with {}".format(row[0]))
+                else:
+                    if len(row) >= 2:
+                        # Ignore header/comment lines and too-short rows
+                        name = row[0].strip()
+                        gender = row[1].strip()
+                        if len(name) >= min_name_length and gender in known_genders:
+                            # Ignore too-short names and unrecognized gender
+                            nnames[name] = gender
+                        else:
+                            print("INFO: Name too short ({}) or unrecognized gender ({})".format(name, gender))
+                    else:
+                        print("INFO: Row too short ({} < 2)".format(len(row)))
+
+        # Fill arrays from dict
+        for name in sorted(nnames.keys()):
+            nnraw.append(name)
+            nnraw.append(nnames[name])
+
+        nj[0]["aValues"] = nnraw
+
+        # Write CSV data as JSON
+        newjfn = Path(str(newfn).replace(".csv", ".json"))
+        if newjfn.exists():
+            print("Warning: Will not overwrite existing {} with CSV data from {}".format(newjfn.name, newfn.name))
+        else:
+            print("Writing full CSV namelist to {}".format(newjfn))
+            with newjfn.open("w", encoding=outbound_encoding) as rfh:
+                json.dump(nj, rfh, indent=pretty_indent)
+        newfn = newjfn
+
+    # Assert: nnraw, nnames, and nj are all populated, either from JSON or CSV
+    # Assert: newfn points at JSON file
+
+    # Write reduced and merged name files
 
     # Remove new names which collide with default names
     for oldname in dnames:
