@@ -47,7 +47,7 @@ $ xxd names_first.json | head -n 6
 
 ~~The purpose of the~~ __The initial__ `0xEF 0xBB 0xBF` ~~is unknown but it~~ __is a UTF-8 *Byte Order Mark* (BOM) which__ can cause issues when attempting to read the file. In particular, Python's `json` module throws errors unless these characters are removed __or the file is read with encoding set to `utf-8-sig`__
 
-See the `normalize_name_files.py` for a commented example/proof-of-concept script which reads, alters, and writes JSON name files. This script deduplicates and merges two JSON first name files and writes the results to two new files. It should be (extended/used as the basis for) a utility to convert CSV _name-gender_ data to JSON format.
+See the `normalize_name_files.py` for a commented example/proof-of-concept script which reads, alters, and writes JSON name files. This script deduplicates and merges two JSON first name files and writes the results to two new files. The script also converts a two column CSV file containing _(name,gender)_ pairs to JSON format and performs the same deduplication and merging.
 
 Otherwise, `names_first.json` has a very straightforward organization that should be reasonably simple to extend.
 
